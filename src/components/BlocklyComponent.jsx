@@ -3,6 +3,8 @@ import * as Blockly from "blockly";
 import { pythonGenerator } from "blockly/python";
 import GenerateButton from "./GenerateButton";
 import "./blockly/customBlocks"; // Import custom blocks
+import "./blockly/customGenerator"; // Import custom generator
+import "./blockly/rBlocks"; // Import R blocks
 
 const BlocklyComponent = ({ setCode }) => {
   const blocklyDiv = useRef(null);
@@ -33,6 +35,12 @@ const BlocklyComponent = ({ setCode }) => {
             <block type="repeat_times"></block>
             <block type="dropdown_color"></block>
           </category>
+          <Category name="R-Example" colour="#5CA65C">
+            <block type="create_vector"></block>
+            <block type="plot_vector"></block>
+          </Category>
+          <category name="Variables" colour="#A65E2E" custom="VARIABLE"></category>
+
         </xml>
       `,
     });
@@ -52,6 +60,16 @@ const BlocklyComponent = ({ setCode }) => {
     setCode(pythonCode);
   };
 
+  const generateCodeR = () => {
+    if (!workspaceRef.current) {
+      console.error("Blockly workspace is not initialized.");
+      return;
+    }
+
+    const rCode = Blockly.Generator.R.workspaceToCode(workspaceRef.current);
+    setCode(rCode);
+  };
+
   return (
     <div
       style={{
@@ -63,7 +81,10 @@ const BlocklyComponent = ({ setCode }) => {
     >
       <div ref={blocklyDiv} style={{ flex: 1, width: "100%" }} />
       <div style={{ marginTop: "0.5rem", textAlign: "center" }}>
-        <GenerateButton onClick={generateCode} />
+        <GenerateButton onClick={generateCode} label="Generate Python Code" />
+      </div>
+      <div style={{ marginTop: "0.5rem", textAlign: "center" }}>
+        <GenerateButton onClick={generateCodeR} label="Generate R Code" />
       </div>
     </div>
   );
