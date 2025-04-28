@@ -1,5 +1,4 @@
 import * as Blockly from "blockly";
-import { pythonGenerator } from "blockly/python";
 
 /**
  * 1. Statement Block (no input)
@@ -13,8 +12,9 @@ Blockly.Blocks["print_hello"] = {
     this.setTooltip("Prints a hello message");
   },
 };
-pythonGenerator.forBlock["print_hello"] = function () {
-  return "print('Hello from custom block')\n";
+
+Blockly.Generator.R.forBlock["print_hello"] = function () {
+  return 'print("Hello from custom block")\n';
 };
 
 /**
@@ -28,10 +28,11 @@ Blockly.Blocks["math_square"] = {
     this.setTooltip("Returns the square of a number");
   },
 };
-pythonGenerator.forBlock["math_square"] = function (block, generator) {
+
+Blockly.Generator.R.forBlock["math_square"] = function (block, generator) {
   const num =
-    generator.valueToCode(block, "NUM", pythonGenerator.ORDER_NONE) || "0";
-  return [`(${num} ** 2)`, pythonGenerator.ORDER_ATOMIC];
+    generator.valueToCode(block, "NUM", Blockly.Generator.R.ORDER_NONE) || "0";
+  return [`(${num} ** 2)`, Blockly.Generator.R.ORDER_ATOMIC];
 };
 
 /**
@@ -45,10 +46,11 @@ Blockly.Blocks["text_greeting"] = {
     this.setTooltip("Returns a greeting with a name");
   },
 };
-pythonGenerator.forBlock["text_greeting"] = function (block, generator) {
+
+Blockly.Generator.R.forBlock["text_greeting"] = function (block, generator) {
   const name =
-    generator.valueToCode(block, "NAME", pythonGenerator.ORDER_NONE) || "''";
-  return [`('Hello, ' + ${name})`, pythonGenerator.ORDER_ATOMIC];
+    generator.valueToCode(block, "NAME", Blockly.Generator.R.ORDER_NONE) || "''";
+  return [`paste('Hello, ', ${name})`, Blockly.Generator.R.ORDER_ATOMIC];
 };
 
 /**
@@ -64,11 +66,12 @@ Blockly.Blocks["repeat_times"] = {
     this.setTooltip("Repeat N times");
   },
 };
-pythonGenerator.forBlock["repeat_times"] = function (block, generator) {
+
+Blockly.Generator.R.forBlock["repeat_times"] = function (block, generator) {
   const times =
-    generator.valueToCode(block, "TIMES", pythonGenerator.ORDER_NONE) || "0";
+    generator.valueToCode(block, "TIMES", Blockly.Generator.R.ORDER_NONE) || "0";
   const branch = generator.statementToCode(block, "DO");
-  return `for i in range(${times}):\n${branch}`;
+  return `for (i in 1:${times}) {\n${branch}}\n`;
 };
 
 /**
@@ -91,7 +94,8 @@ Blockly.Blocks["dropdown_color"] = {
     this.setTooltip("Returns selected color");
   },
 };
-pythonGenerator.forBlock["dropdown_color"] = function (block) {
+
+Blockly.Generator.R.forBlock["dropdown_color"] = function (block) {
   const color = block.getFieldValue("COLOR");
-  return [`"${color.toLowerCase()}"`, pythonGenerator.ORDER_ATOMIC];
+  return [`"${color.toLowerCase()}"`, Blockly.Generator.R.ORDER_ATOMIC];
 };

@@ -20,7 +20,7 @@ Blockly.defineBlocksWithJsonArray([
 
 Blockly.Generator.R.forBlock["create_vector"] = function (block) {
   const elements = block.getFieldValue("ELEMENTS");
-  return [`c(${elements})`, Blockly.Generator.R.ORDER_ATOMIC];
+  return `c(${elements})\n`;
 };
 
 Blockly.defineBlocksWithJsonArray([
@@ -77,19 +77,39 @@ Blockly.defineBlocksWithJsonArray([
 ]);
 
 Blockly.Generator.R.forBlock["rnorm_block"] = function (block, generator) {
-  const n =
-    generator.valueToCode(block, "N", Blockly.Generator.R.ORDER_ATOMIC) || "20";
-  const mean =
-    generator.valueToCode(block, "MEAN", Blockly.Generator.R.ORDER_ATOMIC) ||
-    "10";
-  const sd =
-    generator.valueToCode(block, "SD", Blockly.Generator.R.ORDER_ATOMIC) ||
-    "10";
-
-  return `rnorm(${n}, ${mean}, ${sd})`;
-};
+	const n = generator.valueToCode(block, "N", Blockly.Generator.R.ORDER_ATOMIC);
+	const mean = generator.valueToCode(block, "MEAN", Blockly.Generator.R.ORDER_ATOMIC);
+	const sd = generator.valueToCode(block, "SD", Blockly.Generator.R.ORDER_ATOMIC);
+  
+	return [`rnorm(${n}, mean = ${mean}, sd = ${sd})`, Blockly.Generator.R.ORDER_ATOMIC];
+  };
 
 Blockly.Generator.R.forBlock["math_number"] = function (block) {
   const code = Number(block.getFieldValue("NUM"));
   return [code, Blockly.Generator.R.ORDER_ATOMIC];
+};
+
+Blockly.defineBlocksWithJsonArray([
+  {
+    type: "histogram_block",
+    message0: "histogram of %1",
+    args0: [
+      {
+        type: "input_value",
+        name: "VECTOR",
+      },
+    ],
+    previousStatement: null,
+    nextStatement: null,
+    colour: 230,
+    tooltip: "Generate a histogram of a given vector",
+    helpUrl: "",
+  },
+]);
+
+Blockly.Generator.R.forBlock["histogram_block"] = function (block, generator) {
+  const vector =
+    generator.valueToCode(block, "VECTOR", Blockly.Generator.R.ORDER_NONE) ||
+    "c()";
+  return `hist(${vector})\n`;
 };

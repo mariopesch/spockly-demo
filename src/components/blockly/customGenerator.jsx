@@ -108,3 +108,100 @@ Blockly.Generator.R.scrub_ = function (block, code) {
 
   return commentCode + code + nextCode;
 };
+
+// Generator for text_print block
+Blockly.Generator.R.forBlock["text_print"] = function(block, generator) {
+  const text = generator.valueToCode(block, "TEXT", Blockly.Generator.R.ORDER_NONE) || "''";
+  return `print(${text})\n`;
+};
+
+// Generator for text block
+Blockly.Generator.R.forBlock["text"] = function(block) {
+  const text = block.getFieldValue("TEXT");
+  // Properly quote the string for R
+  return [`"${text}"`, Blockly.Generator.R.ORDER_ATOMIC];
+};
+
+// Generator for variables_get block
+Blockly.Generator.R.forBlock["variables_get"] = function(block) {
+  const varName = Blockly.Generator.R.nameDB_.getName(block.getFieldValue("VAR"), Blockly.Names.NameType.VARIABLE);
+  return [varName, Blockly.Generator.R.ORDER_ATOMIC];
+};
+
+// Generator for variables_set block
+Blockly.Generator.R.forBlock["variables_set"] = function(block, generator) {
+  const varName = Blockly.Generator.R.nameDB_.getName(block.getFieldValue("VAR"), Blockly.Names.NameType.VARIABLE);
+  const value = generator.valueToCode(block, "VALUE", Blockly.Generator.R.ORDER_NONE) || "NULL";
+  return `${varName} <- ${value}\n`;
+};
+
+// Add generators for logic blocks
+Blockly.Generator.R.forBlock["controls_if"] = function(block, generator) {
+  // If/elseif/else condition
+  let code = '';
+  let conditionCode;
+
+  if (block.elseifCount_ === undefined) {
+    block.elseifCount_ = 0;
+  }
+  if (block.elseCount_ === undefined) {
+    block.elseCount_ = 0;
+  }
+
+  conditionCode = generator.valueToCode(block, 'IF0', Blockly.Generator.R.ORDER_NONE) || 'FALSE';
+  let branchCode = generator.statementToCode(block, 'DO0');
+  code += `if (${conditionCode}) {\n${branchCode}}\n`;
+
+  // Else-If clauses
+  for (let i = 1; i <= block.elseifCount_; i++) {
+    conditionCode = generator.valueToCode(block, 'IF' + i, Blockly.Generator.R.ORDER_NONE) || 'FALSE';
+    branchCode = generator.statementToCode(block, 'DO' + i);
+    code += `else if (${conditionCode}) {\n${branchCode}}\n`;
+  }
+
+  // Else clause
+  if (block.elseCount_) {
+    branchCode = generator.statementToCode(block, 'ELSE');
+    code += `else {\n${branchCode}}\n`;
+  }
+
+  return code;
+};
+
+// Logic compare block
+Blockly.Generator.R.forBlock["logic_compare"] = function(block, generator) {
+  const OPERATORS = {
+    'EQ': '==',
+    'NEQ': '!=',
+    'LT': '<',
+    'LTE': '<=',
+    'GT': '>',
+    'GTE': '>='
+  };
+
+  const operator = OPERATORS[block.getFieldValue('OP')];
+  const argument0 = generator.valueToCode(block, 'A', Blockly.Generator.R.ORDER_RELATIONAL) || '0';
+  const argument1 = generator.valueToCode(block, 'B', Blockly.Generator.R.ORDER_RELATIONAL) || '0';
+
+  return [`${argument0} ${operator} ${argument1}`, Blockly.Generator.R.ORDER_RELATIONAL];
+};
+
+// Math arithmetic block
+Blockly.Generator.R.forBlock["math_arithmetic"] = function(block, generator) {
+  const OPERATORS = {
+    'ADD': ['+', Blockly.Generator.R.ORDER_ADDITIVE],
+    'MINUS': ['-', Blockly.Generator.R.ORDER_ADDITIVE],
+    'MULTIPLY': ['*', Blockly.Generator.R.ORDER_MULTIPLICATIVE],
+    'DIVIDE': ['/', Blockly.Generator.R.ORDER_MULTIPLICATIVE],
+    'POWER': ['^', Blockly.Generator.R.ORDER_UNARY]
+  };
+
+  const tuple = OPERATORS[block.getFieldValue('OP')];
+  const operator = tuple[0];
+  const order = tuple[1];
+
+  const argument0 = generator.valueToCode(block, 'A', order) || '0';
+  const argument1 = generator.valueToCode(block, 'B', order) || '0';
+
+  return [`${argument0} ${operator} ${argument1}`, order];
+};
