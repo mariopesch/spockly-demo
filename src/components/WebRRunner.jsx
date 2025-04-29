@@ -1,62 +1,60 @@
-import React, { useState, useEffect } from "react";
-import { WebR } from "@r-wasm/webr"; // Correct import
+import React, { useState, useEffect, useRef } from "react";
+import { WebR } from "@r-wasm/webr";
 
 const webR = new WebR();
 let isInitialized = false;
 
 const WebRRunner = ({ code }) => {
   const [output, setOutput] = useState("Loading WebR...");
+  const canvasRef = useRef(null);
 
-  // Initialize WebR only once when the component mounts
+  // Initialize WebR
   useEffect(() => {
     const initWebR = async () => {
       if (isInitialized) return;
       try {
-        // Initialize WebR environment
         await webR.init();
-
-        // Load necessary packages
-        await webR.evalR(`
-          if (!requireNamespace("stats", quietly = TRUE)) {
-            install.packages("stats", repos="http://cran.us.r-project.org")
-          }
-          library(stats)
-
-          # Set default encoding
-          Sys.setlocale("LC_ALL", "C")
-        `);
-
-        console.log("WebR initialized and packages loaded");
-        setOutput("WebR initialized and ready to run code.");
+        await webR.evalRVoid(`options(device=webr::canvas())`);
         isInitialized = true;
+        setOutput("WebR ready.");
+        startListeningToWebROutput();
       } catch (err) {
         console.error("WebR initialization failed:", err);
-        setOutput(`Error initializing WebR: ${err.message}`);
+        setOutput(`Error: ${err.message}`);
       }
     };
     initWebR();
-  }, []); // Empty dependency array means this runs once on mount
+  }, []);
 
-  // Function to run R code
+  const startListeningToWebROutput = async () => {
+    for (;;) {
+      const output = await webR.read();
+      if (output.type === "canvas") {
+        const canvas = canvasRef.current;
+        const ctx = canvas?.getContext("2d");
+
+        if (output.data.event === "canvasNewPage") {
+          ctx?.clearRect(0, 0, canvas.width, canvas.height);
+        } else if (output.data.event === "canvasImage") {
+          ctx?.drawImage(output.data.image, 0, 0);
+        }
+      }
+    }
+  };
+
   const runCode = async () => {
     if (!isInitialized) {
-      setOutput("WebR is not initialized. Please wait and try again.");
+      setOutput("WebR not ready.");
       return;
     }
 
     try {
-      // Evaluate R code
-      const result = await webR.evalR(code);
-
-      // Get the result as an array or another format
-      const values = await result.toArray();
-
-      // Update the output state with the result
-      setOutput(values.join("\n"));
+      setOutput("Running...");
+      await webR.evalRVoid(code);
+      setOutput("Code executed.");
     } catch (err) {
-      // Handle errors gracefully
+      console.error(err);
       setOutput(`Error: ${err.message}`);
-      console.error("WebR Error:", err);
     }
   };
 
@@ -65,9 +63,7 @@ const WebRRunner = ({ code }) => {
       <button
         onClick={runCode}
         style={{
-          marginBottom: "1rem",
           padding: "10px",
-          cursor: "pointer",
           backgroundColor: "#28a745",
           color: "white",
           border: "none",
@@ -76,16 +72,27 @@ const WebRRunner = ({ code }) => {
       >
         Run R Code
       </button>
+
       <div
         style={{
-          whiteSpace: "pre-wrap",
-          background: "#e8f5e9",
+          marginTop: "1rem",
+          background: "#f0f0f0",
           padding: "1rem",
           borderRadius: "5px",
         }}
       >
         <strong>Output:</strong>
-        <div>{output}</div>
+        <div style={{ whiteSpace: "pre-wrap" }}>{output}</div>
+      </div>
+
+      <div style={{ marginTop: "1rem" }}>
+        <strong>Plot:</strong>
+        <canvas
+          ref={canvasRef}
+          width={1008}
+          height={1008}
+          style={{ width: "504px", height: "504px", border: "1px solid #ccc" }}
+        />
       </div>
     </div>
   );
