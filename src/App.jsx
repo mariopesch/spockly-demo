@@ -1,35 +1,66 @@
-import React, { useState } from "react";
-import BlocklyComponent from "./components/BlocklyComponent";
-import CodeDisplay from "./components/CodeDisplay";
+import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout";
+import Home from "./pages/Home";
+import Tutorials from "./pages/tutorials/Tutorials";
+import Impressum from "./pages/Impressum";
+import { GlobalStyles, ThemeProvider } from "@mui/material";
+import { darkTheme, lightTheme } from "./appTheme";
+import SPOCKLY from "./components/Spockly";
 
 function App() {
-  const [code, setCode] = useState("");
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const toggleTheme = () => setIsDarkMode((prev) => !prev);
+  const theme = isDarkMode ? darkTheme : lightTheme;
 
   return (
-    <div style={{ height: "100vh", width: "100vw", margin: 0, padding: 0 }}>
-      <h1 style={{ textAlign: "center", margin: "0.5rem 0" }}>
-        Spockly Demo: Blockly in React
-      </h1>
-      <div style={{ display: "flex", height: "90vh" }}>
-        {/* Blockly Editor */}
-        <div style={{ flex: 1 }}>
-          <BlocklyComponent setCode={setCode} />
-        </div>
-
-        {/* Code Output */}
-        <div
-          style={{
-            flex: 1,
-            padding: "1rem",
-            overflow: "auto",
-            background: "#f8f8f8",
-          }}
-        >
-          <h2>Generated Python Code</h2>
-          <CodeDisplay code={code} />
-        </div>
-      </div>
-    </div>
+    <ThemeProvider theme={theme}>
+      <GlobalStyles
+        styles={{
+          html: { height: "100%" },
+          body: {
+            margin: 0,
+            padding: 0,
+            height: "100%",
+            backgroundColor: theme.palette.background.default,
+          },
+          "#root": {
+            height: "100%",
+          },
+          h1: { textTransform: "none" },
+          h2: { textTransform: "none" },
+          h3: { textTransform: "none" },
+          h4: { textTransform: "none" },
+          h5: { textTransform: "none" },
+          h6: { textTransform: "none" },
+          p: { textTransform: "none" },
+          ".blocklyTrash": {
+            opacity: "1 !important",
+          },
+          image: {
+            opacity: "1 !important",
+          },
+        }}
+      />
+      <Router>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Layout isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+            }
+          >
+            <Route index element={<Home isDarkMode={isDarkMode} />} />
+            <Route
+              path="spockly"
+              element={<SPOCKLY isDarkMode={isDarkMode} />}
+            />
+            <Route path="tutorials" element={<Tutorials isDarkMode={isDarkMode} />} />
+            <Route path="impressum" element={<Impressum />} />
+          </Route>
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
 }
 

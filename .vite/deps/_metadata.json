@@ -1,0 +1,127 @@
+{
+  "hash": "027e9295",
+  "configHash": "a665d93b",
+  "lockfileHash": "fd4c598c",
+  "browserHash": "4d4bb014",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "e5c9fed8",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "a3cc96f2",
+      "needsInterop": true
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.mjs",
+      "file": "react-router-dom.js",
+      "fileHash": "dd0ff23b",
+      "needsInterop": false
+    },
+    "@mui/material": {
+      "src": "../../node_modules/@mui/material/esm/index.js",
+      "file": "@mui_material.js",
+      "fileHash": "fdd809ae",
+      "needsInterop": false
+    },
+    "@mui/material/styles": {
+      "src": "../../node_modules/@mui/material/esm/styles/index.js",
+      "file": "@mui_material_styles.js",
+      "fileHash": "501da6eb",
+      "needsInterop": false
+    },
+    "react-markdown": {
+      "src": "../../node_modules/react-markdown/index.js",
+      "file": "react-markdown.js",
+      "fileHash": "7cffdca7",
+      "needsInterop": false
+    },
+    "framer-motion": {
+      "src": "../../node_modules/framer-motion/dist/es/index.mjs",
+      "file": "framer-motion.js",
+      "fileHash": "fac1364a",
+      "needsInterop": false
+    },
+    "@mui/icons-material": {
+      "src": "../../node_modules/@mui/icons-material/esm/index.js",
+      "file": "@mui_icons-material.js",
+      "fileHash": "90478e6a",
+      "needsInterop": false
+    },
+    "react-icons/fa": {
+      "src": "../../node_modules/react-icons/fa/index.mjs",
+      "file": "react-icons_fa.js",
+      "fileHash": "b6aa88d7",
+      "needsInterop": false
+    },
+    "@emotion/react": {
+      "src": "../../node_modules/@emotion/react/dist/emotion-react.browser.development.esm.js",
+      "file": "@emotion_react.js",
+      "fileHash": "1e950f5d",
+      "needsInterop": false
+    },
+    "blockly/core": {
+      "src": "../../node_modules/blockly/blockly.mjs",
+      "file": "blockly_core.js",
+      "fileHash": "d61b94cb",
+      "needsInterop": false
+    },
+    "@r-wasm/webr": {
+      "src": "../../node_modules/@r-wasm/webr/dist/webr.mjs",
+      "file": "@r-wasm_webr.js",
+      "fileHash": "30feb874",
+      "needsInterop": false
+    },
+    "blockly": {
+      "src": "../../node_modules/blockly/index.mjs",
+      "file": "blockly.js",
+      "fileHash": "bbe01c3f",
+      "needsInterop": false
+    },
+    "blockly/python": {
+      "src": "../../node_modules/blockly/python.mjs",
+      "file": "blockly_python.js",
+      "fileHash": "6e748705",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-DUXNKJH2": {
+      "file": "chunk-DUXNKJH2.js"
+    },
+    "chunk-QNQS5M3J": {
+      "file": "chunk-QNQS5M3J.js"
+    },
+    "chunk-QBHJWDLY": {
+      "file": "chunk-QBHJWDLY.js"
+    },
+    "chunk-QGXAUCBU": {
+      "file": "chunk-QGXAUCBU.js"
+    },
+    "chunk-66PJSHL5": {
+      "file": "chunk-66PJSHL5.js"
+    },
+    "chunk-57DSTY7X": {
+      "file": "chunk-57DSTY7X.js"
+    },
+    "chunk-EAC6PPLT": {
+      "file": "chunk-EAC6PPLT.js"
+    },
+    "chunk-TBE2WV5M": {
+      "file": "chunk-TBE2WV5M.js"
+    },
+    "chunk-E2N3FCBX": {
+      "file": "chunk-E2N3FCBX.js"
+    },
+    "chunk-Z2U7T4W2": {
+      "file": "chunk-Z2U7T4W2.js"
+    },
+    "chunk-LK32TJAX": {
+      "file": "chunk-LK32TJAX.js"
+    }
+  }
+}

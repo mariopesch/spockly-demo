@@ -1,0 +1,40 @@
+[build]
+  publish = "dist"
+  command = "npm run build"
+
+# Configure COOP/COEP headers required for WebR SharedArrayBuffer support
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Cross-Origin-Embedder-Policy = "require-corp"
+    Cross-Origin-Opener-Policy = "same-origin"
+
+# Set correct MIME type for WebAssembly files
+[[headers]]
+  for = "/*.wasm"
+  [headers.values]
+    Content-Type = "application/wasm"
+    
+# Ensure JavaScript files have correct MIME type
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Content-Type = "application/javascript"
+
+# Cache static assets for better performance
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Enable cross-origin access for WebR virtual filesystem
+[[headers]]
+  for = "/vfs/*"
+  [headers.values]
+    Cross-Origin-Resource-Policy = "cross-origin"
+    
+# SPA routing fallback
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

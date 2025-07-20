@@ -9,7 +9,7 @@ A minimal React app that integrates [Google Blockly](https://developers.google.c
 ## 🚀 Features
 
 - Blockly in a modern React app
-- Generates Python code from blocks
+- Generates R code from blocks
 
 ---
 
@@ -50,7 +50,7 @@ Make sure you have the following installed:
 6. **Explore the Blockly editor**:
 
     - Drag and drop blocks to create your own workflows.
-    - Click the "Generate Python Code" button to see the generated code.
+    - Click the "Generate R Code" button to see the generated code.
     - Modify the blocks and see how the generated code changes.
 
 ````

@@ -5,17 +5,32 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && npm run copy-webr",
+    "copy-webr": "cp -r node_modules/@r-wasm/webr/dist/* dist/",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
-    "blockly": "^11.2.2",
+    "@blockly/field-colour": "^6.0.3",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^7.1.0",
+    "@mui/material": "^7.1.0",
+    "@r-wasm/webr": "^0.2.0",
+    "blockly": "^12.1.0",
+    "framer-motion": "^12.11.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-icons": "^5.5.0",
+    "react-markdown": "^10.1.0",
+    "react-router-dom": "^7.5.3",
+    "remark-gfm": "^4.0.1",
+    "shepherd.js": "^14.5.0",
+    "webr": "^0.5.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "@tailwindcss/typography": "^0.5.16",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
