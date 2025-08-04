@@ -35,6 +35,8 @@ const BlocklyComponent = ({ setCode }) => {
             <block type="text_greeting"></block>
             <block type="repeat_times"></block>
             <block type="dropdown_color"></block>
+            <block type="test_field_grid_dropdown"></block>
+            <block type="test_field_colour"></block>
           </category>
           <Category name="R-Example" colour="#5CA65C">
             <block type="create_vector"></block>
