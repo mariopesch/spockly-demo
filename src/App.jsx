@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import BlocklyComponent from "./components/BlocklyComponent";
 import CodeDisplay from "./components/CodeDisplay";
+import WebRRunner from "./components/WebRRunner";
 
 function App() {
   const [code, setCode] = useState("");
@@ -27,6 +28,7 @@ function App() {
         >
           <h2>Generated Python Code</h2>
           <CodeDisplay code={code} />
+          <WebRRunner code={code} />
         </div>
       </div>
     </div>

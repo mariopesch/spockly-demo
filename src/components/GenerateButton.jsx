@@ -1,6 +1,6 @@
 import React from "react";
 
-const GenerateButton = ({ onClick }) => {
+const GenerateButton = ({ onClick, label = "" }) => {
   return (
     <button
       onClick={onClick}
@@ -14,7 +14,7 @@ const GenerateButton = ({ onClick }) => {
         borderRadius: "5px",
       }}
     >
-      Generate Python Code
+      {label}
     </button>
   );
 };

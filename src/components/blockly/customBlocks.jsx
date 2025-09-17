@@ -1,5 +1,67 @@
 import * as Blockly from "blockly";
 import { pythonGenerator } from "blockly/python";
+import { FieldGridDropdown } from "@blockly/field-grid-dropdown";
+
+import { registerFieldColour } from "@blockly/field-colour";
+
+registerFieldColour();
+Blockly.Blocks["test_field_colour"] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("colour: ")
+      .appendField(
+        new FieldColour("#ff4040", null, {
+          colourOptions: [
+            "#ff4040",
+            "#ff8080",
+            "#ffc0c0",
+            "#4040ff",
+            "#8080ff",
+            "#c0c0ff",
+          ],
+          colourTitles: [
+            "dark pink",
+            "pink",
+            "light pink",
+            "dark blue",
+            "blue",
+            "light blue",
+          ],
+          columns: 3,
+        }),
+        "FIELDNAME"
+      );
+  },
+};
+pythonGenerator.forBlock["test_field_colour"] = function (block) {
+  const value = block.getFieldValue("FIELDNAME");
+  return [`'${value}'`, pythonGenerator.ORDER_ATOMIC];
+};
+
+Blockly.Blocks["test_field_grid_dropdown"] = {
+  init: function () {
+    this.appendDummyInput()
+      .appendField("grid dropdown: ")
+      .appendField(
+        new FieldGridDropdown([
+          ["A", "A"],
+          ["B", "B"],
+          ["C", "C"],
+          ["D", "D"],
+          ["E", "E"],
+          ["F", "F"],
+          ["G", "G"],
+          ["H", "H"],
+        ]),
+        "FIELDNAME"
+      );
+  },
+};
+
+pythonGenerator.forBlock["test_field_grid_dropdown"] = function (block) {
+  const value = block.getFieldValue("FIELDNAME");
+  return [`'${value}'`, pythonGenerator.ORDER_ATOMIC];
+};
 
 /**
  * 1. Statement Block (no input)
